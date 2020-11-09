@@ -108,7 +108,7 @@ namespace TaskMangerServivios
                             }
 
                         }
-                        if (processExists == false)
+                        if (!processExists )
                         {
                             textBox1.Text = "the process does not exists";
 
@@ -122,7 +122,7 @@ namespace TaskMangerServivios
                 }
                 else
                 {
-                    textBox1.Text = string.Format("The process does not exist");
+                    textBox1.Text = "The process does not exist";
                 }
             }
             else
