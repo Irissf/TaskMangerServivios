@@ -16,6 +16,7 @@ namespace TaskMangerServivios
     {
 
         Process[] processes = Process.GetProcesses();
+        Process precessId;
         private int id = 0;
         public Form1()
         {
@@ -108,7 +109,7 @@ namespace TaskMangerServivios
                             }
 
                         }
-                        if (!processExists )
+                        if (!processExists)
                         {
                             textBox1.Text = "the process does not exists";
 
@@ -139,20 +140,25 @@ namespace TaskMangerServivios
                 if (isIntCOrrectId(textBox2.Text)) //esto sería mejor en una función a parte puesto que lo hacemos en cada botón
                 {
                     id = Convert.ToInt32(textBox2.Text);
-                    foreach (Process p in processes)
+                    precessId = Process.GetProcessById(id);
+
+                    try
                     {
-                        if (p.Id == id)
+                        if (precessId.CloseMainWindow())
                         {
-                            if (p.CloseMainWindow())
-                            {
-                                textBox1.Text = "The process was closed";
-                            }
-                            else
-                            {
-                                textBox1.Text = "the process was not closed";
-                            }
+                            textBox1.Text = "The process was closed";
+                        }
+                        else
+                        {
+                            textBox1.Text = "the process was not closed";
                         }
                     }
+                    catch (Exception)
+                    {
+                        textBox1.Text = "Error";
+                    }
+
+
                 }
                 else
                 {
@@ -192,14 +198,16 @@ namespace TaskMangerServivios
                 if (isIntCOrrectId(textBox2.Text)) //esto sería mejor en una función a parte puesto que lo hacemos en cada botón
                 {
                     id = Convert.ToInt32(textBox2.Text);
-                    foreach (Process p in processes)
-                    {
-                        if (p.Id == id)
-                        {
-                            textBox1.Text = ("kill");
+                    precessId = Process.GetProcessById(id);
 
-                            p.Kill();
-                        }
+                    try
+                    {
+                        precessId.Kill();
+
+                    }
+                    catch (Win32Exception)
+                    {
+                        textBox1.Text = "Error";
                     }
                 }
                 else
@@ -250,3 +258,4 @@ namespace TaskMangerServivios
     }
 
 }
+
